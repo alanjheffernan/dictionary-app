@@ -7,10 +7,19 @@ export const getDictionaryWord = async (searchWord) => {
     const response = await fetch(url);
 
     if (!response.ok) {
-      throw new Error();
+      const errorResponse = await response.json() 
+      throw new ApiResponseError(response, errorResponse);
     }
     return await response.json();
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 };
+
+class ApiResponseError extends Error {
+  constructor(response, data) {
+    super(`API request failed with status ${response.status}`);
+    this.data = data;
+    this.status = response.status;
+  }
+}
