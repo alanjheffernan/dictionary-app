@@ -1,21 +1,37 @@
 import React, { useState } from "react";
+import { useFontContext } from "../contexts/FontContext";
 
 const Appfont = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedFont, setSelectedFont] = useState("Sans Serif");
 
-  const changeSelectedFont = (e) => {
-    const newFont = e.target.value();
-  };
+  const { font, changeFont } = useFontContext();
 
   const toggleDropdown = () => setIsOpen(!isOpen);
+
+  const fontList = [
+    {
+      name: "Sans Serif",
+      value: "sans-serif",
+      font: "font-sans",
+    },
+    {
+      name: "Serif",
+      value: "serif",
+      font: "font-serif",
+    },
+    {
+      name: "Mono",
+      value: "mono",
+      font: "font-mono",
+    },
+  ];
 
   return (
     <>
       <div className="flex flex-col justify-center">
         <div className="flex items-center gap-2">
           <button onClick={toggleDropdown} className="font-bold">
-            {selectedFont}
+            {fontList.find((item) => item.font === font).name}
           </button>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -35,28 +51,15 @@ const Appfont = () => {
         <div>
           {isOpen && (
             <ul className="absolute left-[40%] top-[90px] flex w-[200px] flex-col gap-4 rounded-2xl border bg-white p-6 shadow sm:left-[60%]">
-              <li
-                className="cursor-pointer font-sans text-lg font-bold hover:text-purple"
-                onClick={() => changeSelectedFont()}
-              >
-                Sans Serif
-              </li>
-              <li>
-                <a
-                  className="cursor-pointer font-serif text-lg font-bold hover:text-purple"
-                  href="#item2"
+              {fontList.map((font) => (
+                <li
+                  key={font.value}
+                  className={`cursor-pointer ${font.font} text-lg font-bold hover:text-purple`}
+                  onClick={() => changeFont(font.font)}
                 >
-                  Serif
-                </a>
-              </li>
-              <li>
-                <a
-                  className="cursor-pointer font-mono text-lg font-bold hover:text-purple"
-                  href="#item3"
-                >
-                  Mono
-                </a>
-              </li>
+                  {font.name}
+                </li>
+              ))}
             </ul>
           )}
         </div>
