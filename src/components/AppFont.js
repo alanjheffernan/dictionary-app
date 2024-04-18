@@ -5,14 +5,14 @@ const Appfont = () => {
   const [selectedFont, setSelectedFont] = useState("Sans Serif");
 
   const changeSelectedFont = (e) => {
-    const newFont = e.target.vaue;
+    const newFont = e.target.value();
   };
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
   return (
     <>
-      <div className="flex flex-col">
+      <div className="flex flex-col justify-center">
         <div className="flex items-center gap-2">
           <button onClick={toggleDropdown} className="font-bold">
             {selectedFont}
